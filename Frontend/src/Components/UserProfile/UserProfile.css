@@ -1,0 +1,68 @@
+.user-profile-modal {
+  background: white;
+  border-radius: 2px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  overflow: hidden;
+}
+
+.user-profile-header {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-avatar {
+  background: #f3f4f6;
+  padding: 8px;
+  border-radius: 50%;
+}
+
+.user-details h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.user-details p {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 4px 0 0;
+}
+
+.user-profile-menu {
+  padding: 10px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #333;
+  transition: background-color 0.2s;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  background-color: #f3f4f6;
+}
+
+.menu-item.logout {
+  color: #ef4444;
+  font-size: 1rem;
+}
+
+.menu-item svg {
+  font-size: 1.2rem;
+}

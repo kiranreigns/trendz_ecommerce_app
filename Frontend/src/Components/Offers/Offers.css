@@ -1,0 +1,361 @@
+.offers {
+  width: 100%;
+  padding: 30px 0;
+  position: relative;
+  overflow: hidden;
+  background: white;
+}
+
+.offers::before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  left: -50px;
+  width: 200px;
+  height: 200px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+}
+
+.offers::after {
+  content: "";
+  position: absolute;
+  bottom: -80px;
+  right: -80px;
+  width: 300px;
+  height: 300px;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+}
+
+.offers-container {
+  width: 85%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px;
+  background: linear-gradient(180deg, #fde1ff 0%, #e1ffea22 100%);
+  border-radius: 20px;
+  /* box-shadow: 0 20px 90px rgba(0, 0, 0, 0.1); */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.offers-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(90deg, #ff4141, #ff8f8f);
+}
+
+/* .offers-container::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(-90deg, #ff4141, #ff8f8f);
+} */
+
+.offers-left {
+  flex: 1;
+  padding-right: 40px;
+  position: relative;
+}
+
+.offers-badge {
+  display: inline-block;
+  background-color: #ff4141;
+  color: white;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 6px 15px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  transform: rotate(-2deg);
+  box-shadow: 0 4px 10px rgba(255, 65, 65, 0.3);
+}
+
+.offers-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 15px;
+  color: #171717;
+}
+
+.highlight {
+  position: relative;
+  z-index: 1;
+}
+
+.highlight::after {
+  content: "";
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  width: 100%;
+  height: 12px;
+  background-color: rgba(249, 216, 252, 0.7);
+  z-index: -1;
+  border-radius: 10px;
+}
+
+.offers-description {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 30px;
+  letter-spacing: 2px;
+  font-weight: 500;
+}
+
+.offers-button {
+  padding: 15px 35px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(90deg, #ff4141, #ff8f8f);
+  border: none;
+  border-radius: 35px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(255, 65, 65, 0.25);
+}
+
+.offers-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(255, 65, 65, 0.35);
+}
+
+.button-arrow {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.offers-button:hover .button-arrow {
+  transform: translateX(8px);
+}
+
+.offers-timer {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.timer-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(242, 200, 246, 0.3);
+  border-radius: 10px;
+  justify-content: center;
+  width: clamp(60px, 15vw, 80px);
+  height: clamp(60px, 15vw, 80px);
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+
+.timer-number {
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  font-weight: 700;
+  color: #171717;
+}
+
+.timer-label {
+  font-size: 0.8rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.offers-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-wrapper {
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+  transform: rotate(3deg);
+  transition: all 0.5s ease;
+}
+
+.image-wrapper:hover {
+  transform: rotate(0deg);
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.15));
+}
+
+.discount-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #ff4141, #ff8f8f);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  box-shadow: 0 5px 15px rgba(255, 65, 65, 0.4);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.discount-amount {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.discount-text {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1024px) {
+  .offers-title {
+    font-size: 3rem;
+  }
+
+  .offers-description {
+    font-size: 1rem;
+  }
+
+  /* .timer-item {
+    min-width: 60px;
+    min-height: 60px;
+  }
+
+  .timer-number {
+    font-size: 1.5rem;
+  } */
+}
+
+@media screen and (max-width: 768px) {
+  .offers-container {
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 25px;
+    gap: 40px;
+  }
+
+  .offers-left {
+    padding-right: 0;
+  }
+
+  .offers-title {
+    font-size: 2.5rem;
+  }
+
+  .offers-button {
+    margin: 0 auto;
+  }
+
+  .offers-timer {
+    justify-content: center;
+  }
+
+  .image-wrapper {
+    max-width: 300px;
+    transform: rotate(0deg);
+  }
+
+  .discount-badge {
+    width: 70px;
+    height: 70px;
+  }
+
+  .discount-amount {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .offers {
+    padding: 40px 0;
+  }
+
+  .offers-container {
+    width: 92%;
+    padding: 30px 20px;
+  }
+
+  .offers-title {
+    font-size: 2rem;
+  }
+
+  .offers-description {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+
+  .offers-button {
+    padding: 12px 25px;
+    font-size: 1rem;
+  }
+
+  .offers-timer {
+    gap: 10px;
+  }
+
+  /* .timer-item {
+    min-width: 50px;
+    padding: 8px 10px;
+  }
+
+  .timer-number {
+    font-size: 1.2rem;
+  }
+
+  .timer-label {
+    font-size: 0.7rem;
+  } */
+
+  .discount-badge {
+    width: 60px;
+    height: 60px;
+    top: 10px;
+    right: 10px;
+  }
+
+  .discount-amount {
+    font-size: 1.2rem;
+  }
+
+  .discount-text {
+    font-size: 0.8rem;
+  }
+}

@@ -1,0 +1,10 @@
+.toast-container {
+  bottom: 20px !important;
+  right: 20px !important;
+}
+
+/* If you want to add some additional styling for the toasts themselves */
+.toast-container .Toastify__toast {
+  margin-bottom: 10px;
+  border-radius: 8px;
+}

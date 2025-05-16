@@ -1,0 +1,274 @@
+.checkout-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+}
+
+@media (min-width: 768px) {
+  .checkout-grid {
+    grid-template-columns: 3fr 2fr;
+  }
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.section-title::after {
+  content: "";
+  flex-grow: 1;
+  height: 1px;
+  background-color: #ddd;
+  margin-left: 15px;
+}
+
+.address-category-title {
+  font-size: 14px;
+  color: #666;
+  margin: 15px 0;
+}
+
+.address-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  cursor: pointer;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #e9e9e9;
+}
+
+.address-card.selected {
+  border: 1px solid #ff3e6c;
+}
+
+.address-content {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.address-select {
+  display: flex;
+  align-items: flex-start;
+}
+
+.address-select input[type="radio"] {
+  margin-top: 6px;
+  margin-right: 15px;
+  accent-color: #ff3e6c;
+}
+
+.address-name {
+  font-weight: 500;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.address-type {
+  display: inline-block;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  border: 1px solid #2874f0;
+  background: #eef4ff;
+  color: #2874f0;
+  margin-left: 10px;
+  font-weight: normal;
+}
+
+.address-details,
+.address-location,
+.address-phone {
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.delivery-note {
+  color: #388e3c;
+  margin-top: 10px;
+}
+
+.address-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.btn-remove,
+.btn-edit {
+  padding: 8px 15px;
+  border: 1px solid #717171;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 400;
+}
+
+.btn-edit:hover,
+.btn-remove:hover {
+  background: #f5f5f5;
+}
+
+.btn-add-address {
+  width: 100%;
+  padding: 15px;
+  border: 1px dashed #ddd;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #ff3e6c;
+  font-weight: 500;
+  margin-top: 15px;
+}
+
+.btn-add-address:hover {
+  background: #fff9fb;
+}
+
+.new-address-form {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  display: none; /* Hidden by default */
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+@media (min-width: 640px) {
+  .form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .form-row .full-width {
+    grid-column: span 2;
+  }
+}
+
+.form-input {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 100%;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #ff3e6c;
+}
+
+.cart-summary {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.summary-row.total {
+  border-bottom: none;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.payment-methods {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.payment-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 15px;
+}
+
+.payment-option {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  height: 60px;
+  transition: all 0.2s ease;
+}
+
+.payment-option.selected {
+  border-color: #ff3e6c;
+}
+
+.payment-option input[type="radio"] {
+  margin-right: 10px;
+  accent-color: #ff3e6c;
+}
+
+.payment-option label {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+}
+
+/* For the COD option, style the text */
+.payment-option label:last-child {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.btn-place-order {
+  width: 100%;
+  padding: 15px;
+  background: #f72575;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-place-order:hover {
+  opacity: 0.95;
+}
+/* Fix for cursor pointer on address card and all its descendants */
+.address-card * {
+  cursor: pointer;
+}
