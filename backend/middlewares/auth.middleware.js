@@ -21,6 +21,8 @@ export const authorizeAdmin = (req, res, next) => {
     if (decoded.adminId !== "admin" + ADMIN_EMAIL) {
       return res.status(403).json({ success: false, message: "Forbidden" });
     }
+    // Mark this as an admin request
+    req.isAdmin = true;
     next();
   } catch (error) {
     return res

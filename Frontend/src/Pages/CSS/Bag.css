@@ -323,12 +323,6 @@
   gap: 0.5rem;
 }
 
-.checkout-link {
-  text-decoration: none;
-  display: block;
-  width: 100%;
-}
-
 .checkout-button:hover {
   transform: translateY(-2px);
 }

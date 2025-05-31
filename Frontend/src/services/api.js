@@ -129,10 +129,87 @@ export const userService = {
     return response.data;
   },
 
+  // Address operations
+  getAddresses: async () => {
+    const response = await api.get("/api/v1/user/addresses");
+    return response.data;
+  },
+
+  addAddress: async (addressData) => {
+    const response = await api.post("/api/v1/user/addresses", addressData);
+    return response.data;
+  },
+
+  updateAddress: async (addressId, addressData) => {
+    const response = await api.put(
+      `/api/v1/user/addresses/${addressId}`,
+      addressData
+    );
+    return response.data;
+  },
+
+  deleteAddress: async (addressId) => {
+    const response = await api.delete(`/api/v1/user/addresses/${addressId}`);
+    return response.data;
+  },
+
   // Order operations
   createOrder: async (orderData) => {
-    const response = await api.post("/api/v1/user/orders", orderData);
+    const response = await api.post("/api/v1/orders", orderData);
+    return response.data;
+  },
+
+  getUserOrders: async () => {
+    const response = await api.get("/api/v1/orders");
+    return response.data;
+  },
+
+  cancelOrder: async (orderId, itemId = null) => {
+    const response = await api.delete(`/api/v1/orders/${orderId}`, {
+      data: { itemId },
+    });
+    return response.data;
+  },
+
+  updateOrderItemStatus: async (orderId, itemId, status) => {
+    const response = await api.put(
+      `/api/v1/orders/${orderId}/items/${itemId}`,
+      { status }
+    );
     return response.data;
   },
 };
 
+// Payment service
+export const paymentService = {
+  createStripeSession: async (sessionData) => {
+    const response = await api.post(
+      "/api/v1/orders/payment/stripe/create-session",
+      sessionData
+    );
+    return response.data;
+  },
+
+  completeStripeOrder: async (sessionId) => {
+    const response = await api.get(
+      `/api/v1/orders/payment/stripe/complete?session_id=${sessionId}`
+    );
+    return response.data;
+  },
+
+  createRazorpayOrder: async (amount) => {
+    const response = await api.post(
+      "/api/v1/orders/payment/razorpay/create-order",
+      { amount }
+    );
+    return response.data;
+  },
+
+  verifyRazorpayPayment: async (paymentData) => {
+    const response = await api.post(
+      "/api/v1/orders/payment/razorpay/verify",
+      paymentData
+    );
+    return response.data;
+  },
+};

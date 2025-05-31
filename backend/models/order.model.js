@@ -22,6 +22,37 @@ const orderItemSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+
+  status: {
+    type: String,
+    enum: ["Ordered", "Shipped", "Out for delivery", "Delivered", "Cancelled", "Returned"],
+    default: "Ordered",
+  },
+});
+
+const paymentSchema = new mongoose.Schema({
+  paymentMethod: {
+    type: String,
+    enum: ["COD", "Card"],
+    default: "COD",
+  },
+
+  paymentGateway: {
+    type: String,
+    enum: ["Stripe", "Razorpay", ""],
+    default: "",
+  },
+
+  transactionId: {
+    type: String,
+    default: "",
+  },
+
+  paymentStatus: {
+    type: String,
+    enum: ["Pending", "Completed", "Failed", "Refunded"],
+    default: "Pending",
+  },
 });
 
 const orderSchema = new mongoose.Schema({
@@ -54,11 +85,7 @@ const orderSchema = new mongoose.Schema({
     phone: { type: String, required: true },
   },
 
-  paymentMethod: {
-    type: String,
-    enum: ["COD", "Card"],
-    default: "COD",
-  },
+  payment: paymentSchema,
 
   orderedAt: {
     type: Date,

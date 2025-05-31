@@ -4,6 +4,10 @@ import {
   updateWishlist,
   updateBag,
   getUserData,
+  addAddress,
+  updateAddress,
+  deleteAddress,
+  getAddresses
 } from "../controllers/user.controller.js";
 
 const router = express.Router();
@@ -16,5 +20,11 @@ router.post("/bag", authorizeUser, updateBag);
 
 // Get user data
 router.get("/data", authorizeUser, getUserData);
+
+// Address routes
+router.get("/addresses", authorizeUser, getAddresses);
+router.post("/addresses", authorizeUser, addAddress);
+router.put("/addresses/:addressId", authorizeUser, updateAddress);
+router.delete("/addresses/:addressId", authorizeUser, deleteAddress);
 
 export default router;

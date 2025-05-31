@@ -1,231 +1,184 @@
-import React, { useState } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import "./CSS/Checkout.css";
-import "../Components/AddressModal/AddressModal.css"; // Import the new styles
-import AddressModal from "../Components/AddressModal/AddressModal";
-import razorpayIcon from "../assets/razorpay_logo.png";
-import stripeIcon from "../assets/stripe_logo.png";
+import "../Components/AddressModal/AddressModal.css";
+import AddressModal from "../components/AddressModal/AddressModal";
+import ShopContext from "../context/ShopContext";
+import Loader from "../components/Loader/Loader";
+import { useAuth } from "../hooks/useAuth";
+import { useBagCalculations } from "../hooks/useBagCalculations";
+
+// Import components
+import AddressSection from "../components/Checkout/AddressSection";
+import PaymentSummary from "../components/Checkout/PaymentSummary";
+import CheckoutActions from "../components/Checkout/CheckoutActions";
+
+// Import hooks and services
+import usePaymentHandlers from "../hooks/usePaymentHandlers";
+import useRazorpaySDK from "../hooks/useRazorpaySDK";
+import { userService, paymentService } from "../services/api";
+import { toast } from "react-toastify";
+import { getDefaultAddressId, PAYMENT_METHODS } from "../utils/checkoutHelpers";
 
 const Checkout = () => {
-  const [selectedAddress, setSelectedAddress] = useState("default");
-  const [selectedPayment, setSelectedPayment] = useState("stripe");
+  const { user } = useAuth();
+  const { bag } = useContext(ShopContext);
+  const { subtotal, shipping, tax, discount, total } = useBagCalculations();
+  const navigate = useNavigate();
+
+  // State
+  const [selectedAddress, setSelectedAddress] = useState("");
+  const [selectedPayment, setSelectedPayment] = useState(
+    PAYMENT_METHODS.STRIPE
+  );
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
-  const [addresses, setAddresses] = useState([
-    {
-      id: "default",
-      name: "Kiran",
-      addressLine:
-        "28-1441/B, Mahatma nagar, Tenabanda road, Chittoor, Tenebanda",
-      city: "Chittoor",
-      state: "Andhra Pradesh",
-      zipcode: "517004",
-      phone: "9392269712",
-      type: "HOME",
-    },
-    {
-      id: "alternate",
-      name: "Kiran",
-      addressLine:
-        "28-1441/B,Mahathma Nagar, Thenabanda road, Chittoor., Ctr Market",
-      city: "Chittoor",
-      state: "Andhra Pradesh",
-      zipcode: "517001",
-      phone: "9392269712",
-      type: "HOME",
-    },
-  ]);
+  const [addresses, setAddresses] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const stripeHandledRef = useRef(false);
 
-  // Open address modal
-  const openAddressModal = () => {
-    setIsAddressModalOpen(true);
-  };
+  // Custom hooks
+  // const { isLoaded: isRazorpayLoaded } = useRazorpaySDK();
+  useRazorpaySDK();
+  const { isProcessingOrder, handlePlaceOrder } = usePaymentHandlers({
+    bag,
+    total,
+    shipping,
+    tax,
+    selectedAddress,
+    addresses,
+    user,
+  });
 
-  // Close address modal
-  const closeAddressModal = () => {
-    setIsAddressModalOpen(false);
-  };
+  // Fetch addresses on mount
+  useEffect(() => {
+    const fetchAddresses = async () => {
+      setIsLoading(true);
+      try {
+        const response = await userService.getAddresses();
+        if (response.success && response.addresses) {
+          setAddresses(response.addresses);
 
-  // Save new address
-  const saveNewAddress = (newAddress) => {
-    // Create a unique ID for the new address
-    const id = `address_${Date.now()}`;
-
-    // Create structured address from form data
-    const formattedAddress = {
-      id,
-      name: newAddress.name,
-      addressLine: newAddress.street,
-      city: newAddress.city,
-      state: newAddress.state,
-      zipcode: newAddress.zipCode,
-      phone: newAddress.phone,
-      type: newAddress.type,
+          // Set default address
+          const defaultAddressId = getDefaultAddressId(response.addresses);
+          if (defaultAddressId) {
+            setSelectedAddress(defaultAddressId);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching addresses:", error);
+        toast.error("Failed to load addresses. Please try again.");
+      } finally {
+        setIsLoading(false);
+      }
     };
 
-    // Add to addresses array
-    setAddresses([...addresses, formattedAddress]);
+    fetchAddresses();
+  }, []);
 
-    // Select the new address
-    setSelectedAddress(id);
+  // Redirect to bag if it's empty
+  useEffect(() => {
+    if (!bag || bag.length === 0) {
+      navigate("/bag");
+      return;
+    }
+  }, [bag, navigate]);
+
+  // Handle Stripe payment success or cancel from URL params
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const success = urlParams.get("success") === "true";
+    const canceled = urlParams.get("canceled") === "true";
+    const sessionId = urlParams.get("session_id");
+
+    if (success && sessionId && !stripeHandledRef.current) {
+      stripeHandledRef.current = true;
+
+      const completeOrder = async () => {
+        try {
+          await paymentService.completeStripeOrder(sessionId);
+          toast.success("Order has been placed.");
+          navigate("/orders");
+        } catch (error) {
+          console.error("Error completing Stripe order:", error);
+          toast.error(
+            "Payment was successful but there was an issue creating your order. Please contact support."
+          );
+        }
+      };
+      completeOrder();
+    }
+
+    if (canceled) {
+      toast.info("Payment was canceled.");
+    }
+  }, [navigate]);
+
+  // Address modal handlers
+  const openAddressModal = () => setIsAddressModalOpen(true);
+  const closeAddressModal = () => setIsAddressModalOpen(false);
+
+  // Save new address
+  const saveNewAddress = async (newAddress) => {
+    try {
+      const response = await userService.addAddress(newAddress);
+      if (response.success && response.addresses) {
+        setAddresses(response.addresses);
+
+        // Select the newly added address
+        const newlyAddedAddress =
+          response.addresses[response.addresses.length - 1];
+        if (newlyAddedAddress) {
+          setSelectedAddress(newlyAddedAddress._id);
+        }
+
+        toast.success("Address added successfully");
+      }
+    } catch (error) {
+      console.error("Error adding address:", error);
+      toast.error("Failed to add address. Please try again.");
+    }
   };
 
-  // Helper function to get status badge class
-  const getAddressCategory = (addressId) => {
-    return addressId === "default" ? "DEFAULT ADDRESS" : "OTHER ADDRESS";
-  };
+  // Show loader while fetching data
+  if (isLoading) {
+    return (
+      <div className="loading-container">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="checkout-container">
       <div className="checkout-grid">
         <div className="left-column">
-          <h2 className="section-title">Select Delivery Address</h2>
-
-          <div className="address-section">
-            <div className="address-options">
-              {addresses.map((address) => (
-                <div key={address.id} className="address-category">
-                  <h4 className="address-category-title">
-                    {getAddressCategory(address.id)}
-                  </h4>
-
-                  <div
-                    className={`address-card ${
-                      selectedAddress === address.id ? "selected" : ""
-                    }`}
-                    onClick={() => setSelectedAddress(address.id)}
-                  >
-                    <div className="address-content">
-                      <div className="address-select">
-                        <input
-                          type="radio"
-                          id={`address-${address.id}`}
-                          name="address"
-                          checked={selectedAddress === address.id}
-                          onChange={() => setSelectedAddress(address.id)}
-                        />
-                        <label htmlFor={`address-${address.id}`}>
-                          <div className="address-name">
-                            {address.name}
-                            <span className="address-type">{address.type}</span>
-                          </div>
-                          <div className="address-details">
-                            {address.addressLine}
-                          </div>
-                          <div className="address-location">
-                            {address.city}, {address.state} - {address.zipcode}
-                          </div>
-                          <div className="address-phone">
-                            Phone: {address.phone}
-                          </div>
-                          {address.id === "default" && (
-                            <div className="delivery-note">
-                              • Cash on Delivery available
-                            </div>
-                          )}
-                        </label>
-                      </div>
-                    </div>
-                    <div className="address-actions">
-                      <button className="btn-remove">REMOVE</button>
-                      <button className="btn-edit">EDIT</button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-
-              <button className="btn-add-address" onClick={openAddressModal}>
-                + Add New Address
-              </button>
-            </div>
-          </div>
+          <AddressSection
+            addresses={addresses}
+            selectedAddress={selectedAddress}
+            setSelectedAddress={setSelectedAddress}
+            openAddressModal={openAddressModal}
+            isLoading={isLoading}
+          />
         </div>
 
         <div className="right-column">
-          <div className="cart-summary">
-            <h2 className="section-title">PAYMENT SUMMARY</h2>
-            <div className="summary-row">
-              <span>Subtotal</span>
-              <span>$ 0.00</span>
-            </div>
-            <div className="summary-row">
-              <span>Shipping Fee</span>
-              <span>$ 0.00</span>
-            </div>
-            <div className="summary-row">
-              <span>Estimated tax</span>
-              <span>$ 0.00</span>
-            </div>
-            <div className="summary-row">
-              <span>Discount</span>
-              <span>$ -0.00</span>
-            </div>
-            <div className="summary-row total">
-              <span>Total</span>
-              <span>$ 0.00</span>
-            </div>
-          </div>
+          <PaymentSummary
+            subtotal={subtotal}
+            shipping={shipping}
+            tax={tax}
+            discount={discount}
+            total={total}
+          />
 
-          <div className="payment-methods">
-            <h2 className="section-title">PAYMENT METHOD</h2>
-            <div className="payment-options">
-              <div
-                className={`payment-option ${
-                  selectedPayment === "stripe" ? "selected" : ""
-                }`}
-                onClick={() => setSelectedPayment("stripe")}
-              >
-                <input
-                  type="radio"
-                  id="stripe"
-                  name="payment"
-                  checked={selectedPayment === "stripe"}
-                  onChange={() => setSelectedPayment("stripe")}
-                />
-                <label htmlFor="stripe">
-                  <img src={stripeIcon} width={60} height={20} alt="Stripe" />
-                </label>
-              </div>
-
-              <div
-                className={`payment-option ${
-                  selectedPayment === "razorpay" ? "selected" : ""
-                }`}
-                onClick={() => setSelectedPayment("razorpay")}
-              >
-                <input
-                  type="radio"
-                  id="razorpay"
-                  name="payment"
-                  checked={selectedPayment === "razorpay"}
-                  onChange={() => setSelectedPayment("razorpay")}
-                />
-                <label htmlFor="razorpay">
-                  <img src={razorpayIcon} width={90} alt="Razorpay" />
-                </label>
-              </div>
-
-              <div
-                className={`payment-option ${
-                  selectedPayment === "cod" ? "selected" : ""
-                }`}
-                onClick={() => setSelectedPayment("cod")}
-              >
-                <input
-                  type="radio"
-                  id="cod"
-                  name="payment"
-                  checked={selectedPayment === "cod"}
-                  onChange={() => setSelectedPayment("cod")}
-                />
-                <label htmlFor="cod">CASH ON DELIVERY</label>
-              </div>
-            </div>
-          </div>
-
-          <button className="btn-place-order">PLACE ORDER</button>
+          <CheckoutActions
+            selectedPayment={selectedPayment}
+            setSelectedPayment={setSelectedPayment}
+            isProcessingOrder={isProcessingOrder}
+            handlePlaceOrder={handlePlaceOrder}
+          />
         </div>
       </div>
 
-      {/* Address Modal */}
       <AddressModal
         isOpen={isAddressModalOpen}
         onClose={closeAddressModal}

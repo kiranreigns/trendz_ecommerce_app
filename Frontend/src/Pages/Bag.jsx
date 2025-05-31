@@ -1,7 +1,9 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
-import ShopContext from "../Context/ShopContext";
+import { Link, useNavigate } from "react-router-dom";
+import ShopContext from "../context/ShopContext";
 import "./CSS/Bag.css";
+import { useAuth } from "../hooks/useAuth";
+import { useBagCalculations } from "../hooks/useBagCalculations";
 import emptyBagImage from "../assets/emptybag.png";
 import {
   FiHeart,
@@ -12,14 +14,21 @@ import {
 } from "react-icons/fi";
 
 const Bag = () => {
-  const {
-    bag,
-    removeFromBag,
-    updateBagQuantity,
-    moveToWishlist,
-    calculateTotal,
-    calculateDiscount,
-  } = useContext(ShopContext);
+  const { bag, removeFromBag, updateBagQuantity, moveToWishlist } =
+    useContext(ShopContext);
+
+  const { subtotal, discount, shipping, tax, total } = useBagCalculations();
+  const { isAuthenticated, openAuthModal } = useAuth();
+  const navigate = useNavigate();
+
+  const handleCheckout = () => {
+    if (!isAuthenticated) {
+      openAuthModal();
+      return false;
+    } else {
+      navigate("/checkout");
+    }
+  };
 
   // Helper function to get image URL
   const getImageUrl = (imageArray) => {
@@ -142,23 +151,23 @@ const Bag = () => {
               <span>
                 Subtotal ({bag.length} {bag.length === 1 ? "item" : "items"})
               </span>
-              <span>${calculateTotal().toFixed(2)}</span>
+              <span>${subtotal}</span>
             </div>
             <div className="summary-row">
               <span>Shipping</span>
-              <span>Free</span>
+              <span>{shipping === 0 ? "Free" : `$${shipping}`}</span>
             </div>
             <div className="summary-row">
               <span>Estimated Tax (5%)</span>
-              <span>${(calculateTotal() * 0.05).toFixed(2)}</span>
+              <span>${tax}</span>
             </div>
             <div className="summary-row">
               <span>Discount</span>
-              <span>${calculateDiscount().toFixed(2)}</span>
+              <span>${discount}</span>
             </div>
             <div className="summary-row total-row">
               <span>Total</span>
-              <span>${(calculateTotal() * 1.05).toFixed(2)}</span>
+              <span>${total}</span>
             </div>
           </div>
 
@@ -173,11 +182,10 @@ const Bag = () => {
               <button className="apply-button">Apply</button>
             </div>
           </div>
-          <Link to="/checkout" className="checkout-link">
-            <button className="checkout-button">
-              Proceed to Checkout <FiArrowRight />
-            </button>
-          </Link>
+
+          <button className="checkout-button" onClick={handleCheckout}>
+            Proceed to Checkout <FiArrowRight />
+          </button>
         </div>
       </div>
     </div>

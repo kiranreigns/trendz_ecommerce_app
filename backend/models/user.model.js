@@ -17,6 +17,18 @@ const bagItemSchema = new mongoose.Schema({
   },
 });
 
+const addressSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  street: { type: String, required: true },
+  city: { type: String, required: true },
+  state: { type: String, required: true },
+  zipCode: { type: String, required: true },
+  country: { type: String, required: true },
+  phone: { type: String, required: true },
+  type: { type: String, enum: ["HOME", "WORK", "OTHER"], default: "HOME" },
+  isDefault: { type: Boolean, default: false },
+});
+
 const userSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
@@ -24,6 +36,7 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     bag: [bagItemSchema],
     wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+    addresses: [addressSchema],
   },
 
   { timestamps: true, minimize: false }
