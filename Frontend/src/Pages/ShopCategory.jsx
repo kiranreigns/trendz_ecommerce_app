@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import ShopContext from "../context/ShopContext";
-import Item from "../Components/Item/Item";
+import Item from "../components/Item/Item";
 import "./CSS/ShopCategory.css";
 import Loader from "../components/Loader/Loader";
 import ScrollToTop from "../Components/ScrollToTop/ScrollToTop";
