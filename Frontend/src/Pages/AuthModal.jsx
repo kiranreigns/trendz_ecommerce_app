@@ -3,7 +3,7 @@ import "./CSS/AuthModal.css";
 import { FaGoogle, FaFacebookF } from "react-icons/fa";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useAuth } from "../Context/useAuth";
+import { useAuth } from "../hooks/useAuth";
 
 const AuthModal = ({ onClose }) => {
   const [isLogin, setIsLogin] = useState(true);
