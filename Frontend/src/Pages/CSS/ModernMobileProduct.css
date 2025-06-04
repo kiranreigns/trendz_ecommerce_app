@@ -1,0 +1,415 @@
+/* Modern Mobile Product Page CSS */
+
+/* Base styles */
+.modern-product-container {
+  min-height: 100vh;
+  background-color: white;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Image Carousel */
+.modern-carousel {
+  position: relative;
+}
+
+.modern-carousel-container {
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+.modern-carousel-track {
+  display: flex;
+  transition: transform 0.3s ease-out;
+}
+
+.modern-carousel-slide {
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.modern-carousel-image {
+  width: 100%;
+  height: 550px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Carousel Overlays */
+.modern-view-similar {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  background-color: white;
+  padding: 8px 16px;
+  border-radius: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  font-weight: 500;
+  color: #1f2937;
+  border: none;
+  cursor: pointer;
+}
+
+.modern-rating-badge {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  background-color: white;
+  padding: 8px 12px;
+  border-radius: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.modern-rating-number {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.modern-rating-star {
+  width: 16px;
+  height: 16px;
+  color: #fbbf24;
+  fill: currentColor;
+}
+
+.modern-rating-count {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* Image Indicators */
+.modern-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.modern-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.modern-indicator.active {
+  background-color: #ec4899;
+}
+
+.modern-indicator:not(.active) {
+  background-color: #d1d5db;
+}
+
+/* Product Details */
+.modern-product-details {
+  padding: 16px;
+}
+
+.modern-product-name {
+  font-size: 18px;
+  font-weight: 500;
+  color: #1f2937;
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+
+/* Price Section */
+.modern-price-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.modern-current-price {
+  font-size: 24px;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.modern-original-price {
+  font-size: 18px;
+  color: #6b7280;
+  text-decoration: line-through;
+}
+
+.modern-discount {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ef4444;
+}
+
+/* Rating Section */
+.modern-rating-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.modern-stars {
+  display: flex;
+  gap: 2px;
+}
+
+.modern-star {
+  width: 16px;
+  height: 16px;
+}
+
+.modern-star.filled {
+  color: #fbbf24;
+  fill: currentColor;
+}
+
+.modern-star:not(.filled) {
+  color: #d1d5db;
+}
+
+.modern-review-count {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* Description */
+.modern-description {
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+/* Services Info */
+.modern-services {
+  background-color: #f9fafb;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.modern-services-title {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 12px;
+}
+
+.modern-services-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modern-service-item {
+  display: flex;
+  justify-content: between;
+  font-size: 14px;
+}
+
+.modern-service-label {
+  color: #6b7280;
+}
+
+.modern-service-value {
+  font-weight: 500;
+  margin-left: auto;
+}
+
+.modern-service-value.available {
+  color: #059669;
+}
+
+/* Size Selection */
+.modern-size-section {
+  margin-bottom: 24px;
+}
+
+.modern-size-title {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 12px;
+}
+
+.modern-size-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.modern-size-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid #d1d5db;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.modern-size-button:hover {
+  border-color: #9ca3af;
+}
+
+.modern-size-button.selected {
+  border-color: #1f2937;
+  background-color: #1f2937;
+  color: white;
+}
+
+.modern-size-button.shake {
+  animation: shake 0.4s;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+
+.modern-size-error {
+  color: #ef4444;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+/* Bottom Actions */
+.modern-bottom-actions {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border-top: 1px solid #e5e7eb;
+  padding: 16px;
+  z-index: 10;
+}
+
+.modern-action-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.modern-action-button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  gap: 8px;
+}
+
+.modern-wishlist-button {
+  border: 2px solid #d1d5db;
+  background-color: white;
+  color: #374151;
+}
+
+.modern-wishlist-button:hover {
+  border-color: #9ca3af;
+}
+
+.modern-wishlist-button.active {
+  border-color: #ec4899;
+  color: #ec4899;
+  background-color: #fdf2f8;
+}
+
+.modern-add-to-bag {
+  background-color: #ec4899;
+  color: white;
+  border: 2px solid #ec4899;
+}
+
+.modern-add-to-bag:hover {
+  background-color: #db2777;
+}
+
+.modern-add-to-bag.added {
+  background-color: #059669;
+  border-color: #059669;
+}
+
+.modern-action-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Bottom Spacer */
+.modern-bottom-spacer {
+  height: 80px;
+}
+
+/* Loading */
+.modern-loading {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modern-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #f3f4f6;
+  border-top: 4px solid #1f2937;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.modern-not-found {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.modern-not-found h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* Media Queries for larger screens */
+@media (min-width: 768px) {
+  .modern-product-container {
+    max-width: 480px;
+    margin: 0 auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Hide on desktop - show original layout */
+@media (min-width: 1024px) {
+  .modern-product-container {
+    display: none;
+  }
+}

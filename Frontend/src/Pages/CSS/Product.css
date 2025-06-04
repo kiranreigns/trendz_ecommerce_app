@@ -86,23 +86,24 @@
 }
 
 .size-selection {
-  margin-bottom: 20px;
+  padding: 0;
+  margin: 30px 0;
 }
 
 .size-selection h3 {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .size-buttons {
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 .size-button {
-  width: 45px;
-  height: 45px;
-  padding: 12px;
-  border: 1px solid #ddd;
+  width: 48px;
+  height: 48px;
+  border: 1px solid #cecece;
   border-radius: 50%;
   background-color: white;
   cursor: pointer;
@@ -144,7 +145,6 @@
 }
 
 .size-error-message {
-  /* color: #ff3e6c; */
   color: #ff0000;
   font-size: 14px;
   margin-top: 8px;
@@ -156,7 +156,6 @@
 }
 
 .add-to-bag {
-  /* flex-grow: 1; */
   gap: 10px;
   padding: 12px 22px;
   width: 380px;
@@ -168,7 +167,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  -webkit-box-align: center;
   font-weight: bold;
   font-size: medium;
   cursor: pointer;
@@ -178,6 +176,7 @@
 .add-to-bag:hover {
   opacity: 0.95;
 }
+
 .wishlist-button {
   padding: 12px 22px;
   width: 320px;
@@ -188,7 +187,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  -webkit-box-align: center;
   font-weight: bold;
   font-size: medium;
   cursor: pointer;
@@ -197,4 +195,89 @@
 
 .wishlist-button:hover {
   border: 1px solid #535766;
+}
+
+/* Service Information Styles */
+.service-info {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+.service-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+  padding: 8px 0;
+}
+
+.service-item svg {
+  color: #535766;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.service-item div {
+  flex: 1;
+  margin-left: 15px;
+}
+
+.service-item strong {
+  display: block;
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 1px;
+}
+
+.service-item p {
+  font-size: 14px;
+  color: #878890;
+  margin: 0;
+}
+
+/* ===============================================
+   MOBILE RESPONSIVE STYLES
+   =============================================== */
+
+/* Tablet styles (768px and below) */
+@media (max-width: 768px) {
+  .product-container {
+    flex-direction: column;
+    padding: 20px 15px;
+    gap: 20px;
+  }
+
+  .product-left {
+    width: 100%;
+    order: 1;
+  }
+
+  .product-right {
+    width: 100%;
+    order: 2;
+  }
+
+  .product-main-img img {
+    height: 400px;
+  }
+
+  .product-images img {
+    height: 100px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .add-to-bag {
+    width: 100%;
+  }
+
+  .wishlist-button {
+    width: 100%;
+  }
 }
