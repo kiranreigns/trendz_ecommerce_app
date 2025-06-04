@@ -18,10 +18,10 @@ const Hero = () => {
           <h2>Elevate Your Style with</h2>
           <div className="hero-headline">
             <div className="hand-icon-wrapper">
-              <h1 className="new-text">Brand</h1>
+              <h1 className="brand-text">Brand</h1>
             </div>
-            <h1 className="collections-text">New ✨</h1>
-            <h1 className="everyone-text">Collections</h1>
+            <h1 className="new-text">New ✨</h1>
+            <h1 className="collections-text">Collections</h1>
           </div>
 
           <button className="hero-latest-btn" onClick={scrollToNewCollections}>

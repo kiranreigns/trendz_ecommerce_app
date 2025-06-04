@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
-import ShopContext from "../../Context/ShopContext";
+import ShopContext from "../../context/ShopContext";
 import "./NewCollections.css";
 import Item from "../Item/Item";
+import Loader from "../Loader/Loader";
 
 const NewCollections = () => {
   const { products, isLoading } = useContext(ShopContext);
@@ -9,14 +10,7 @@ const NewCollections = () => {
   const newCollections = products.filter((product) => product.newCollection);
 
   if (isLoading) {
-    return (
-      <div className="new-collections">
-        <div className="new-collections-header">
-          <h1>NEW COLLECTIONS</h1>
-        </div>
-        <div className="loading">Loading new collections...</div>
-      </div>
-    );
+    return <Loader />;
   }
 
   return (

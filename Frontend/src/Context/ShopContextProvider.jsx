@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import ShopContext from "./ShopContext";
-import { useAuth } from "./useAuth.js";
-import { productService, userService } from "../services/api";
+import ShopContext from "../context/ShopContext.jsx";
+import { useAuth } from "../hooks/useAuth.js";
+import { productService, userService } from "../services/api.js";
 
 const ShopContextProvider = ({ children }) => {
   const { isAuthenticated, user } = useAuth();
@@ -95,39 +95,6 @@ const ShopContextProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem("bag", JSON.stringify(bag));
   }, [bag]);
-
-  const calculateTotal = () => {
-    if (!bag || !Array.isArray(bag)) return 0;
-
-    return bag.reduce((total, item) => {
-      if (!item) return total;
-      const quantity = item.quantity || 1;
-      // Handle both direct price and nested productId.newPrice structures
-      const price =
-        Number(item.newPrice) ||
-        (item.productId && Number(item.productId.newPrice)) ||
-        0;
-      return total + price * quantity;
-    }, 0);
-  };
-
-  const calculateDiscount = () => {
-    if (!bag || !Array.isArray(bag)) return 0;
-
-    return bag.reduce((total, item) => {
-      if (!item) return total;
-      const quantity = item.quantity || 1;
-      const price =
-        Number(item.newPrice) ||
-        (item.productId && Number(item.productId.newPrice)) ||
-        0;
-      const oldPrice =
-        Number(item.oldPrice) ||
-        (item.productId && Number(item.productId.oldPrice)) ||
-        0;
-      return total + (oldPrice - price) * quantity;
-    }, 0);
-  };
 
   const addToWishlist = async (product) => {
     if (!product || !product._id) {
@@ -251,45 +218,6 @@ const ShopContextProvider = ({ children }) => {
     await removeFromBag(product._id, size);
   };
 
-  const createOrder = async (shippingAddress) => {
-    if (!isAuthenticated) {
-      throw new Error("Please login to place an order");
-    }
-
-    if (!bag || bag.length === 0) {
-      throw new Error("Your bag is empty");
-    }
-
-    try {
-      const orderData = {
-        items: bag.map((item) => ({
-          productId:
-            item._id ||
-            (item.productId && item.productId._id) ||
-            item.productId,
-          quantity: item.quantity || 1,
-          size: item.size || "",
-          price:
-            Number(item.newPrice) ||
-            (item.productId && Number(item.productId.newPrice)) ||
-            0,
-        })),
-        totalAmount: calculateTotal(),
-        shippingAddress,
-      };
-
-      const response = await userService.createOrder(orderData);
-      if (response.success) {
-        setBag([]); // Clear bag after successful order
-        localStorage.removeItem("bag"); // Also clear localStorage
-      }
-      return response;
-    } catch (error) {
-      console.error("Error creating order:", error);
-      throw error; // Rethrow to let the UI handle it
-    }
-  };
-
   const value = {
     products,
     isLoading,
@@ -302,9 +230,6 @@ const ShopContextProvider = ({ children }) => {
     removeFromWishlist,
     updateBagQuantity,
     moveToWishlist,
-    calculateTotal,
-    calculateDiscount,
-    createOrder,
   };
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;

@@ -1,7 +1,8 @@
 import "./BestSellers.css";
 import Item from "../Item/Item";
 import { useContext } from "react";
-import ShopContext from "../../Context/ShopContext";
+import ShopContext from "../../context/ShopContext";
+import Loader from "../Loader/Loader";
 
 const Bestsellers = () => {
   const { products, moveToBag, isLoading } = useContext(ShopContext);
@@ -9,14 +10,7 @@ const Bestsellers = () => {
   const bestSellerProducts = products.filter((product) => product.bestSeller);
 
   if (isLoading) {
-    return (
-      <section className="best-sellers">
-        <div className="best-sellers-header">
-          <h1>Best Sellers</h1>
-        </div>
-        <div className="loading">Loading best sellers...</div>
-      </section>
-    );
+    return <Loader />;
   }
 
   return (

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./Item.css";
 import SizeChartModal from "../SizeChartModal/SizeChartModal";
-import ShopContext from "../../Context/ShopContext";
+import ShopContext from "../../context/ShopContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

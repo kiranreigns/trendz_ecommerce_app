@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import ReactDOM from "react-dom";
-import ShopContext from "../../Context/ShopContext";
+import ShopContext from "../../context/ShopContext";
 import "./SizeChartModal.css";
 import { MdClose } from "react-icons/md";
 import { toast } from "react-toastify";
@@ -96,7 +96,7 @@ const SizeChartModal = ({ productId, trigger }) => {
                 </div>
               </div>
 
-              <div className="size-selection">
+              <div className="modal-size-selection">
                 <h4>Select Size</h4>
                 <div className="size-options">
                   {sizes.map((size) => (

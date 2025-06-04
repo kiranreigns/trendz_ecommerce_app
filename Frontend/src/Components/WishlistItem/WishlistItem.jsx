@@ -1,7 +1,6 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import "./WishlistItem.css";
-import SizeChartModal from "../../Components/SizeChartModal/SizeChartModal";
+import SizeChartModal from "../SizeChartModal/SizeChartModal";
 
 const WishlistItem = ({ id, image, name, oldPrice, newPrice, onRemove }) => {
   const discount = Math.round(((oldPrice - newPrice) / oldPrice) * 100);

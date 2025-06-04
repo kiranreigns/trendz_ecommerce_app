@@ -1,7 +1,9 @@
 import React, { useState, useContext } from "react";
-import ShopContext from "../Context/ShopContext";
+import ShopContext from "../context/ShopContext";
 import Item from "../Components/Item/Item";
 import "./CSS/ShopCategory.css";
+import Loader from "../components/Loader/Loader";
+import ScrollToTop from "../Components/ScrollToTop/ScrollToTop";
 
 const ShopCategory = ({ banner, category }) => {
   const { products, isLoading, addToWishlist, moveToBag } =
@@ -10,7 +12,7 @@ const ShopCategory = ({ banner, category }) => {
 
   const categoriesMap = {
     men: ["all", "shirts", "pants", "Jackets and Suits", "t-shirts"],
-    women: ["all", "tops", "dresses", "bottoms", "accessories"],
+    women: ["all", "tops", "dresses", "bottoms", "sarees"],
     kids: ["all", "Boys Clothing", "Girls Clothing"],
   };
 
@@ -32,7 +34,7 @@ const ShopCategory = ({ banner, category }) => {
     return (
       <div className="shop-category">
         <img className="shopcategory-banner" src={banner} alt="" />
-        <div className="loading">Loading products...</div>
+        <Loader />
       </div>
     );
   }
@@ -72,6 +74,7 @@ const ShopCategory = ({ banner, category }) => {
           ))
         )}
       </div>
+      <ScrollToTop />
     </div>
   );
 };

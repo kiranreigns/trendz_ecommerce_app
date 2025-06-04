@@ -88,12 +88,12 @@
   color: #ff6b6b;
 }
 
-.size-selection {
+.modal-size-selection {
   padding: 20px;
   margin-left: 15px;
 }
 
-.size-selection h4 {
+.modal-size-selection h4 {
   font-size: 16px;
   margin: 0 0 16px;
   color: #333;

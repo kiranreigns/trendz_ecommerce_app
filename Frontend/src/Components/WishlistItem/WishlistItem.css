@@ -6,7 +6,6 @@
   overflow: hidden;
   transition: all 0.3s ease;
   height: 100%;
-  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); */
   position: relative;
 }
 
@@ -104,9 +103,6 @@
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
   border-top: none;
-  /* border-left: none;
-  border-right: none;
-  border-bottom: none; */
   cursor: pointer;
   font-size: 0.8rem;
   font-weight: 600;
@@ -138,6 +134,19 @@
 @media (max-width: 480px) {
   .wishlist-item-info {
     padding: 10px;
+  }
+
+  .wishlist-item-name {
+    font-size: 0.8rem;
+  }
+
+  .wishlist-price-new {
+    font-size: 0.85rem;
+  }
+
+  .wishlist-price-old,
+  .wishlist-discount-percent {
+    font-size: 0.75rem;
   }
 
   .move-to-bag-button {

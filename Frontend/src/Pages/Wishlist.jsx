@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import ShopContext from "../Context/ShopContext";
+import ShopContext from "../context/ShopContext";
 import "./CSS/Wishlist.css";
 import WishlistItem from "../Components/WishlistItem/WishlistItem";
 import wishListImg from "../assets/wishlist-img.png";

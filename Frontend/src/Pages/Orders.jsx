@@ -228,7 +228,7 @@ const Orders = () => {
                     Qty: {orderProduct.product.quantity}
                   </span>
                   <span className="order-product-price">
-                    ${orderProduct.product.price.toFixed(2)}
+                    Price: ${orderProduct.product.price.toFixed(2)}
                   </span>
                 </div>
                 <div className="order-meta-info">
@@ -239,6 +239,9 @@ const Orders = () => {
                   </span>
                   <span className="order-date">
                     Date: {orderProduct.orderDate}
+                  </span>
+                  <span className="order-id">
+                    Order ID: {orderProduct.orderId}
                   </span>
                 </div>
               </div>

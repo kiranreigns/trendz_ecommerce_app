@@ -100,6 +100,28 @@ export const productService = {
     const response = await api.get("/api/v1/products");
     return response.data.products;
   },
+  
+  search: async (query) => {
+    const response = await api.get(`/api/v1/products/search?q=${encodeURIComponent(query)}`);
+    return response.data.products || [];
+  },
+  
+  getPopularSearches: async () => {
+    try {
+      const response = await api.get("/api/v1/products/popular-searches");
+      return response.data.searches || [];
+    } catch (error) {
+      console.error("Error fetching popular searches:", error);
+      return [
+        "Summer dresses",
+        "Men's sneakers",
+        "Women's accessories",
+        "Sport shoes",
+        "Casual t-shirts",
+        "Denim jeans"
+      ];
+    }
+  },
 };
 
 // User service

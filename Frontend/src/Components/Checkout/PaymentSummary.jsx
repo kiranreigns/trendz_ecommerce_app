@@ -1,5 +1,3 @@
-import React from "react";
-
 const PaymentSummary = ({ subtotal, shipping, tax, discount, total }) => {
   return (
     <div className="cart-summary">
@@ -10,7 +8,7 @@ const PaymentSummary = ({ subtotal, shipping, tax, discount, total }) => {
       </div>
       <div className="summary-row">
         <span>Shipping Fee</span>
-        <span>${shipping === 0 ? "Free" : shipping}</span>
+        <span>{shipping == 0 ? "Free" : `$${shipping}`}</span>
       </div>
       <div className="summary-row">
         <span>Tax (5%)</span>

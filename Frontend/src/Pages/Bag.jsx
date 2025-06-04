@@ -77,9 +77,9 @@ const Bag = () => {
                 </div>
                 <div className="bag-item-details">
                   <div className="bag-item-info">
-                    <h3>
+                    <h2>
                       <Link to={`/product/${item._id}`}>{item.name}</Link>
-                    </h3>
+                    </h2>
                     <span className="item-size">Size: {item.size}</span>
                     <div className="item-price">
                       <span className="new-price">
@@ -155,7 +155,7 @@ const Bag = () => {
             </div>
             <div className="summary-row">
               <span>Shipping</span>
-              <span>{shipping === 0 ? "Free" : `$${shipping}`}</span>
+              <span>{shipping == 0 ? "Free" : `$${shipping}`}</span>
             </div>
             <div className="summary-row">
               <span>Estimated Tax (5%)</span>

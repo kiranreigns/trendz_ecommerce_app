@@ -3,6 +3,7 @@ import BestSellers from "../Components/BestSellers/BestSellers";
 import Offers from "../Components/Offers/Offers";
 import NewCollections from "../Components/NewCollections/NewCollections";
 import NewsLetter from "../Components/NewsLetter/NewsLetter";
+import ScrollToTop from "../Components/ScrollToTop/ScrollToTop";
 
 const Shop = () => {
   return (
@@ -12,6 +13,7 @@ const Shop = () => {
       <Offers />
       <NewCollections />
       <NewsLetter />
+      <ScrollToTop />
     </>
   );
 };
