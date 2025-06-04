@@ -4,9 +4,6 @@ import { VITE_BACKEND_URL } from "../../config/env.js";
 // Create axios instance with default config
 const api = axios.create({
   baseURL: VITE_BACKEND_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 // Add request interceptor to include token
@@ -66,12 +63,12 @@ export const productService = {
 // Order service
 export const orderService = {
   getAll: async () => {
-    const response = await api.get("api/v1/users/orders");
+    const response = await api.get("/api/v1/orders/admin");
     return response.data.orders;
   },
 
-  updateOrder: async (id, order) => {
-    const response = await api.put(`/api/v1/users/orders/${id}`, order);
-    return response.data.order;
+  updateOrderStatus: async (id, status, itemId = null) => {
+    const response = await api.put(`/api/v1/orders/${id}`, { status, itemId });
+    return response.data;
   },
 };

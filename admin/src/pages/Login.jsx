@@ -59,7 +59,6 @@ const Login = ({ setToken }) => {
               Please sign in to your admin account
             </p>
           </div>
-
           <div className="p-8">
             <form onSubmit={handleSubmit}>
               <div className="mb-6">

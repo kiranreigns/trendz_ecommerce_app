@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { productService } from "../services/api";
 
 const NewProduct = () => {
-  const adultSizes = ["XS", "S", "M", "L", "XL", "XXL"];
+  const adultSizes = ["XS", "S", "M", "L", "XL", "XXL", "1Size"];
   const kidsSizes = [
     "0-1Y",
     "1-2Y",
@@ -89,7 +89,7 @@ const NewProduct = () => {
       formDataToSend.append("description", formData.description);
       formDataToSend.append("sizes", JSON.stringify(formData.sizes));
       formDataToSend.append("bestSeller", formData.bestSeller);
-      formDataToSend.append("newCollection", formData.newCollection); // Add this line
+      formDataToSend.append("newCollection", formData.newCollection);
       formDataToSend.append("ratings", Number(formData.rating) || 0); // Ensure number
       formDataToSend.append("reviews", Number(formData.reviews) || 0); // Ensure number
 
@@ -99,6 +99,11 @@ const NewProduct = () => {
           formDataToSend.append(key, imageFiles[key]);
         }
       });
+
+      console.log(
+        "Sending form data with files:",
+        Object.fromEntries(formDataToSend)
+      );
 
       const response = await productService.createProduct(formDataToSend);
       if (response.success) {
@@ -136,7 +141,7 @@ const NewProduct = () => {
   const availableSizes = formData.category === "Kids" ? kidsSizes : adultSizes;
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
+    <div className="p-6 max-w-5xl mx-auto">
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -258,7 +263,7 @@ const NewProduct = () => {
               <option value="Tops">Tops</option>
               <option value="Dresses">Dresses</option>
               <option value="Bottoms">Bottoms</option>
-              <option value="Accessories">Accessories</option>
+              <option value="Sarees">Sarees</option>
               <option value="Boys Clothing">Boys Clothing</option>
               <option value="Girls Clothing">Girls Clothing</option>
             </select>
