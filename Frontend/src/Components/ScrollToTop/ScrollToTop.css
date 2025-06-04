@@ -1,0 +1,33 @@
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 45px;
+  background-color: #ff4141;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s;
+  z-index: 1000;
+}
+
+.scroll-to-top:hover {
+  transform: translateY(-5px);
+}
+
+.scroll-to-top svg {
+  width: 20px;
+  height: 20px;
+}
+
+@media screen and (max-width: 480px) {
+  .scroll-to-top {
+    right: 20px;
+    bottom: 30px;
+  }
+}
