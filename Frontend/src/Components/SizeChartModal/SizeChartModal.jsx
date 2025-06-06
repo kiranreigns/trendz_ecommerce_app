@@ -10,6 +10,8 @@ const SizeChartModal = ({ productId, trigger }) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const { products, addToBag, isLoading } = useContext(ShopContext);
   const [selectedSize, setSelectedSize] = useState(null);
+  const [shakeSizes, setShakeSizes] = useState(false);
+  const [showSizeError, setShowSizeError] = useState(false);
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -30,7 +32,7 @@ const SizeChartModal = ({ productId, trigger }) => {
   }
 
   const { image, name, oldPrice, newPrice, sizes } = product;
-  const discount = oldPrice - newPrice;
+  const discount = (oldPrice - newPrice).toFixed(2);
 
   const handleSizeSelect = (size) => {
     setSelectedSize(size);
@@ -38,21 +40,22 @@ const SizeChartModal = ({ productId, trigger }) => {
 
   const handleAddToBag = () => {
     if (!selectedSize) {
-      alert("Please select a size");
-      return;
+      setShowSizeError(true);
+      setShakeSizes(true);
+      setTimeout(() => setShakeSizes(false), 400);
+    } else {
+      addToBag(product, 1, selectedSize);
+      toast.success("Product added to bag!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      handleCloseModal();
     }
-
-    addToBag(product, 1, selectedSize);
-    toast.success("Product added to bag!", {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-    handleCloseModal();
   };
 
   // The trigger element remains in the original component
@@ -104,13 +107,16 @@ const SizeChartModal = ({ productId, trigger }) => {
                       key={size}
                       className={`size-option ${
                         selectedSize === size ? "selected" : ""
-                      }`}
+                      } ${shakeSizes ? "shake" : ""}`}
                       onClick={() => handleSizeSelect(size)}
                     >
                       {size}
                     </button>
                   ))}
                 </div>
+                {showSizeError && (
+                  <p className="size-error-msg">Please select a size</p>
+                )}
               </div>
               <div className="button-container">
                 <button className="add-to-bag-button" onClick={handleAddToBag}>
