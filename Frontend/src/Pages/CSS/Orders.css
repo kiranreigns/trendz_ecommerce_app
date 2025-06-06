@@ -482,6 +482,12 @@
     font-size: 0.9rem;
   }
 
+  .order-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 0.9rem;
+  }
+
   .order-action-button {
     font-size: 0.75rem;
     padding: 0.5rem;
