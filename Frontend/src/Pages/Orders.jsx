@@ -338,9 +338,7 @@ const Orders = () => {
           <div className="cancel-order-modal">
             <div className="modal-header">
               <FiX className="warning-icon" />
-              <h3>
-                <h3>Cancel Order #{orderToCancel.id}?</h3>
-              </h3>
+              <h3>Cancel Order #{orderToCancel.id}?</h3>
             </div>
             <p>
               Are you sure you want to cancel this{" "}

@@ -16,4 +16,6 @@ export const {
   STRIPE_SECRET_KEY,
   RAZORPAY_KEY_ID,
   RAZORPAY_KEY_SECRET,
+  MAILTRAP_USER,
+  MAILTRAP_PASS,
 } = process.env;

@@ -9,9 +9,36 @@ import {
   RAZORPAY_KEY_ID,
   RAZORPAY_KEY_SECRET,
 } from "../config/env.js";
+import { sendOrderConfirmationEmail, sendOrderFailedEmail } from "../services/email/emailService.js";
 
 const orderRouter = Router();
 const stripe = new Stripe(STRIPE_SECRET_KEY);
+
+// Helper function to add status to items
+const addStatusToItems = (items) => {
+  return items.map((item) => ({
+    ...item,
+    status: "Ordered",
+  }));
+};
+
+// Helper function to send order confirmation email asynchronously
+const sendOrderEmailAsync = (orderId, user, isFailedOrder = false) => {
+  Order.findById(orderId)
+    .populate("items.productId")
+    .then(populatedOrder => {
+      if (isFailedOrder) {
+        sendOrderFailedEmail(populatedOrder, user).catch(err => 
+          console.error("Error sending failed order email:", err)
+        );
+      } else {
+        sendOrderConfirmationEmail(populatedOrder, user).catch(err => 
+          console.error("Error sending confirmation email:", err)
+        );
+      }
+    })
+    .catch(err => console.error("Error populating order:", err));
+};
 
 // Create a new order
 export const createOrder = async (req, res, next) => {
@@ -26,15 +53,9 @@ export const createOrder = async (req, res, next) => {
     } = req.body;
     const userId = req.user._id;
 
-    // Ensure each item has a status
-    const itemsWithStatus = items.map((item) => ({
-      ...item,
-      status: "Ordered",
-    }));
-
     const orderData = {
       userId,
-      items: itemsWithStatus,
+      items: addStatusToItems(items),
       total,
       shippingAddress,
       status: "Ordered",
@@ -51,12 +72,20 @@ export const createOrder = async (req, res, next) => {
     await order.save();
 
     // Clear the bag after successful order
-    await User.findByIdAndUpdate(userId, { $set: { bag: [] } });
+    const user = await User.findByIdAndUpdate(userId, { $set: { bag: [] } });
 
+    // Respond immediately with success
     res.json({
       success: true,
       order,
     });
+
+    // Send email asynchronously after response is sent
+    if (order.payment.paymentStatus === "Completed" || order.payment.paymentMethod === "COD") {
+      sendOrderEmailAsync(order._id, user);
+    } else if (order.payment.paymentStatus === "Failed") {
+      sendOrderEmailAsync(order._id, user, true);
+    }
   } catch (error) {
     next(error);
   }
@@ -252,7 +281,7 @@ export const getUserOrders = async (req, res, next) => {
       .sort({ orderedAt: -1 });
     res.json({
       success: true,
-      orders: orders,
+      orders,
     });
   } catch (error) {
     next(error);
@@ -385,7 +414,7 @@ export const createRazorpayOrder = async (req, res) => {
 
     res.json({
       success: true,
-      order: order,
+      order,
     });
   } catch (error) {
     console.error("Razorpay order creation error:", error);
@@ -439,8 +468,22 @@ export const handleStripeWebhook = async (req, res) => {
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
+  // Respond immediately to acknowledge receipt
+  res.json({ received: true });
+
+  // Process the webhook asynchronously
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
+    
+    // Check if order already exists with this transaction ID to avoid duplicates
+    const existingOrder = await Order.findOne({
+      "payment.transactionId": session.payment_intent
+    }).catch(err => console.error("Error checking existing order:", err));
+    
+    if (existingOrder) {
+      console.log(`Order already exists for payment_intent: ${session.payment_intent}`);
+      return;
+    }
 
     try {
       // Get shipping address from metadata
@@ -450,16 +493,10 @@ export const handleStripeWebhook = async (req, res) => {
         ? JSON.parse(session.metadata.items)
         : [];
 
-      // Ensure each item has a status
-      const itemsWithStatus = items.map((item) => ({
-        ...item,
-        status: "Ordered",
-      }));
-
       // Create order
       const orderData = {
         userId,
-        items: itemsWithStatus,
+        items: addStatusToItems(items),
         total: session.amount_total / 100,
         shippingAddress,
         status: "Ordered",
@@ -476,16 +513,14 @@ export const handleStripeWebhook = async (req, res) => {
       await order.save();
 
       // Clear user's bag
-      await User.findByIdAndUpdate(userId, { $set: { bag: [] } });
+      const user = await User.findByIdAndUpdate(userId, { $set: { bag: [] } });
+
+      // Send email asynchronously
+      sendOrderEmailAsync(order._id, user);
     } catch (error) {
       console.error("Error processing Stripe webhook:", error);
-      return res
-        .status(500)
-        .json({ success: false, message: "Error processing webhook" });
     }
   }
-
-  res.json({ received: true });
 };
 
 export default orderRouter;
@@ -511,34 +546,6 @@ export const createOrderFromStripeSession = async (req, res, next) => {
       });
     }
 
-    // Get data from session metadata
-    const userId = session.metadata.userId;
-    const shippingAddress = JSON.parse(session.metadata.shippingAddress);
-    const items = JSON.parse(session.metadata.items);
-    const total = parseFloat(session.metadata.total);
-
-    // Ensure each item has a status
-    const itemsWithStatus = items.map((item) => ({
-      ...item,
-      status: "Ordered",
-    }));
-
-    // Create order data
-    const orderData = {
-      userId,
-      items: itemsWithStatus,
-      total,
-      shippingAddress,
-      status: "Ordered",
-      payment: {
-        paymentMethod: "Card",
-        paymentGateway: "Stripe",
-        transactionId: session.payment_intent,
-        paymentStatus: "Completed",
-      },
-      orderedAt: new Date(),
-    };
-
     // Check if order already exists with this transaction ID
     const existingOrder = await Order.findOne({
       "payment.transactionId": session.payment_intent,
@@ -552,18 +559,44 @@ export const createOrderFromStripeSession = async (req, res, next) => {
       });
     }
 
+    // Get data from session metadata
+    const userId = session.metadata.userId;
+    const shippingAddress = JSON.parse(session.metadata.shippingAddress);
+    const items = JSON.parse(session.metadata.items);
+    const total = parseFloat(session.metadata.total);
+
+    // Create order data with status added to items
+    const orderData = {
+      userId,
+      items: addStatusToItems(items),
+      total,
+      shippingAddress,
+      status: "Ordered",
+      payment: {
+        paymentMethod: "Card",
+        paymentGateway: "Stripe",
+        transactionId: session.payment_intent,
+        paymentStatus: "Completed",
+      },
+      orderedAt: new Date(),
+    };
+
     // Create new order
     const order = new Order(orderData);
     await order.save();
 
     // Clear the user's bag
-    await User.findByIdAndUpdate(userId, { $set: { bag: [] } });
+    const user = await User.findByIdAndUpdate(userId, { $set: { bag: [] } });
 
+    // Respond immediately with success
     res.json({
       success: true,
       message: "Order created successfully",
       order,
     });
+
+    // Send email asynchronously after response
+    sendOrderEmailAsync(order._id, user);
   } catch (error) {
     next(error);
   }
