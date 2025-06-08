@@ -6,7 +6,7 @@
 
 TrendZ is a full-stack e-commerce platform that provides a seamless shopping experience with integrated payment processing, order management, and an administrative dashboard. It features real-time inventory management, multi-payment gateway support, and a responsive user interface.
 
-The platform combines a customer-facing storefront with a powerful admin panel, enabling businesses to manage products, track orders, and analyze sales performance. Built with React and Node.js, TrendZ offers features like wishlist management, shopping cart functionality, multiple payment options (Stripe, Razorpay, COD), and automated order confirmation emails.
+The platform comes with a customer-facing storefront and an admin panel, enabling businesses to manage products and update orders. Built with React and Node.js, TrendZ offers features like wishlist management, shopping bag functionality, multiple payment options (Stripe, Razorpay, COD), and automated order confirmation emails.
 
 ## Repository Structure
 
