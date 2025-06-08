@@ -1,9 +1,9 @@
-import Hero from "../Components/Hero/Hero";
-import BestSellers from "../Components/BestSellers/BestSellers";
-import Offers from "../Components/Offers/Offers";
-import NewCollections from "../Components/NewCollections/NewCollections";
-import NewsLetter from "../Components/NewsLetter/NewsLetter";
-import ScrollToTop from "../Components/ScrollToTop/ScrollToTop";
+import Hero from "../components/Hero/Hero";
+import BestSellers from "../components/BestSellers/BestSellers";
+import Offers from "../components/Offers/Offers";
+import NewCollections from "../components/NewCollections/NewCollections";
+import NewsLetter from "../components/NewsLetter/NewsLetter";
+import ScrollToTop from "../components/ScrollToTop/ScrollToTop";
 
 const Shop = () => {
   return (

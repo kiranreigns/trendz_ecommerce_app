@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CSS/Checkout.css";
-import "../Components/AddressModal/AddressModal.css";
+import "../components/AddressModal/AddressModal.css";
 import AddressModal from "../components/AddressModal/AddressModal";
 import ShopContext from "../context/ShopContext";
 import Loader from "../components/Loader/Loader";

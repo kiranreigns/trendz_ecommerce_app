@@ -1,9 +1,9 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import ShopContext from "../context/ShopContext";
 import Item from "../components/Item/Item";
 import "./CSS/ShopCategory.css";
 import Loader from "../components/Loader/Loader";
-import ScrollToTop from "../Components/ScrollToTop/ScrollToTop";
+import ScrollToTop from "../components/ScrollToTop/ScrollToTop";
 
 const ShopCategory = ({ banner, category }) => {
   const { products, isLoading, addToWishlist, moveToBag } =

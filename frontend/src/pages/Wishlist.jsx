@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import ShopContext from "../context/ShopContext";
 import "./CSS/Wishlist.css";
-import WishlistItem from "../Components/WishlistItem/WishlistItem";
+import WishlistItem from "../components/WishlistItem/WishlistItem";
 import wishListImg from "../assets/wishlist-img.png";
 
 const Wishlist = () => {
