@@ -1,8 +1,8 @@
 # TrendZ - A Modern E-commerce Platform with Admin Dashboard
 
-![Desktop mock img](/frontend/public/desktop_mock.png)
-![Desktop mock img](/frontend/public/mobile_mock.png)
-![Desktop mock img](/frontend/public/admin.png)
+![Desktop mock img](/readme%20images/desktop_mock.png)
+![Desktop mock img](/readme%20images/mobile_mock.png)
+![Desktop mock img](/readme%20images/admin.png)
 
 TrendZ is a full-stack e-commerce platform that provides a seamless shopping experience with integrated payment processing, order management, and an administrative dashboard. It features real-time inventory management, multi-payment gateway support, and a responsive user interface.
 
@@ -170,7 +170,7 @@ Key interactions:
 ### To simulate payments use these test cards:
 
 For Stripe test card visit [Stripe](https://docs.stripe.com/testing)
-![Desktop mock img](/frontend/public/stripe.jpeg)
+![Desktop mock img](/readme%20images/stripe.jpeg)
 
 For Razorpay test card visit [Razorpay](https://razorpay.com/docs/payments/payments/test-card-details)
-![Desktop mock img](/frontend/public/razorpay.jpeg)
+![Desktop mock img](/readme%20images/razorpay.jpeg)
