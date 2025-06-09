@@ -167,10 +167,6 @@
   .collections-text {
     font-size: 3.5rem;
   }
-
-  .hand-icon-wrapper img {
-    width: 3.5rem;
-  }
 }
 
 @media screen and (max-width: 992px) {
@@ -182,10 +178,6 @@
   .hero-left {
     text-align: center;
     align-items: center;
-  }
-
-  .hand-icon-wrapper {
-    justify-content: center;
   }
 
   .collections-text::after {
@@ -210,7 +202,7 @@
   }
 
   .hero-image-container {
-    width: 100%;
+    width: 95%;
   }
 }
 
@@ -218,6 +210,11 @@
   .hero {
     min-height: auto;
     padding: 1rem 0;
+  }
+
+  .hero-content {
+    flex-direction: column;
+    gap: 1.6rem;
   }
 
   .hero-right {
@@ -254,8 +251,5 @@
     margin-top: 0.7rem;
     padding: 0.7rem 1.5rem;
     font-size: 1rem;
-  }
-
-  .whishlist-btn {
   }
 }
