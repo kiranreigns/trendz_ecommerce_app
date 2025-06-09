@@ -26,9 +26,13 @@ app.use("/api/v1/orders", orderRouter);
 
 app.use(errorMiddleware);
 
-app.listen(PORT, async () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+const startServer = async () => {
   await connectToDatabase();
-});
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
+};
+
+startServer();
 
 export default app;
