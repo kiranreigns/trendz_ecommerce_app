@@ -98,7 +98,7 @@ const Header = ({ onLoginClick }) => {
       <div className="header-content">
         {/* Mobile menu toggle */}
         <div className="mobile-menu-toggle" onClick={toggleMobileMenu}>
-          {isMobileMenuOpen ? "" : <CgMenuLeftAlt size={34} />}
+          {isMobileMenuOpen ? "" : <CgMenuLeftAlt size={29} />}
         </div>
 
         {/* Logo */}
@@ -134,7 +134,7 @@ const Header = ({ onLoginClick }) => {
         {/* Mobile Actions - Search, Wishlist, Bag */}
         <div className="mobile-actions">
           <div className="mobile-search-toggle" onClick={toggleMobileSearch}>
-            <LuSearch size={28} />
+            <LuSearch size={25} />
           </div>
 
           <Link
@@ -142,7 +142,7 @@ const Header = ({ onLoginClick }) => {
             className="mobile-action-item"
             onClick={() => setMenu("")}
           >
-            <LuHeart size={28} />
+            <LuHeart size={25} />
           </Link>
 
           <Link
@@ -151,7 +151,7 @@ const Header = ({ onLoginClick }) => {
             onClick={() => setMenu("")}
           >
             <div className="mobile-bag-icon-wrapper">
-              <HiOutlineShoppingBag size={28} />
+              <HiOutlineShoppingBag size={25} />
               {bagItemsCount > 0 && (
                 <span className="mobile-bag-count">{bagItemsCount}</span>
               )}
