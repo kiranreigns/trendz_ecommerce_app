@@ -535,25 +535,22 @@
     font-size: 0.9rem;
   }
 
+  .bag-item-info h2 {
+    font-size: medium;
+    font-weight: 500;
+  }
+
   .bag-item-actions {
     gap: 0.75rem;
     margin-top: 0.5rem;
-    padding-top: 0.75rem;
-  }
-
-  .item-action-buttons {
-    gap: 0.5rem;
   }
 
   .action-btn {
     font-size: 0.75rem;
-    padding: 0.35rem 0.7rem;
-    border-radius: 15px;
   }
 
-  .action-btn svg {
-    width: 14px;
-    height: 14px;
+  .wishlist-btn svg {
+    width: 25px;
   }
 
   /* Empty bag mobile optimization */
@@ -583,7 +580,16 @@
   }
 
   .bag-wishlist-button {
-    padding: 0.7rem 1.2rem;
+    padding: 0.5rem 1.2rem;
     font-size: 1.05rem;
+  }
+
+  .action-btn {
+    border-radius: 4px;
+  }
+
+  .order-summary {
+    padding: 0.75rem;
+    border: 1px solid var(--light-gray);
   }
 }

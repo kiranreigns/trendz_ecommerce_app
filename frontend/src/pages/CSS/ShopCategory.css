@@ -31,7 +31,6 @@
   display: flex;
   justify-content: center;
   gap: 15px;
-  flex-wrap: wrap;
   margin-top: 30px;
   margin-bottom: 40px;
 }
@@ -99,5 +98,19 @@
   .category-button {
     padding: 12px 22px;
     font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .categories-filter {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    padding: 10px 5px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .categories-filter::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
   }
 }
